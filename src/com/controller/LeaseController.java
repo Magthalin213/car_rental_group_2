@@ -54,7 +54,7 @@ public class LeaseController {
 			default :
 				break;
 			}
-			sc.close();
+			
 		}
 	}
 }
