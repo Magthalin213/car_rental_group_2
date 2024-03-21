@@ -30,7 +30,6 @@ public class VendorDaoImpl {
 		pstmt.setString(6,phoneNumber);
 		pstmt.setString(7,userName);
 		pstmt.setString(8,password);
-		
 		pstmt.executeUpdate();
 		DBUtil.dbClose();
 	}
@@ -75,7 +74,8 @@ public class VendorDaoImpl {
 		return list;
 	}
 	
-	public Vendor getById(int id) throws SQLException {
+	public Vendor getById(int id) throws SQLException 
+	{
 		 conn=DBUtil.getDBConn();
 		String sql="select * from vendor where id=?";
 		PreparedStatement pstmt=conn.prepareStatement(sql);
@@ -123,10 +123,11 @@ public class VendorDaoImpl {
 		DBUtil.dbClose();
 	}
 	
-	public List<VendorDto> getByid(int vuid) throws SQLException {
+	public List<VendorDto> getByid(int vuid) throws SQLException 
+	{
 		 conn=DBUtil.getDBConn();
 		 List<VendorDto>l=new ArrayList<>();
-		String sql="select v.id, v.first_name, v.last_name, v.email, v.phone_number,"
+		 String sql="select v.id, v.first_name, v.last_name, v.email, v.phone_number,"
 				+ "l.vehicle_id,l.start_date,l.end_date,l.type "
 				+ "from vendor v join lease l on l.vehicle_id= v.vehicle_id "
 				+ "where v.id=?";
@@ -158,7 +159,6 @@ public class VendorDaoImpl {
 		}
 		DBUtil.dbClose();
 		 return l;
-	
 	}
 	
 	public void update(int vid,String vfastName)
@@ -176,6 +176,5 @@ public class VendorDaoImpl {
 			e.printStackTrace();
 		}
 		DBUtil.dbClose();
-}
-	
+	}
 }

@@ -8,7 +8,6 @@ import com.dto.VendorDto;
 import com.model.Vendor;
 
 
-
 public class VendorService {
 	
 	VendorDaoImpl vendorDaoImpl=new VendorDaoImpl();
@@ -20,30 +19,33 @@ public class VendorService {
 				phoneNumber,userName, password);
 	}
 	
+	
 	public List<Vendor> listAll(){
 		List<Vendor>list=vendorDaoImpl.listAll();
 		return list;
 	}
+	
 	
 	public Vendor getById(int id) throws SQLException
 	{
 		return vendorDaoImpl.getById(id);
 	}
 	
+	
 	public void delete(int id)
 	{
 		vendorDaoImpl.delete(id);
 	}
+	
 	
 	public List<VendorDto> getByid(int vuid) throws SQLException {
 		List<VendorDto>l=vendorDaoImpl.getByid(vuid);
 		return l;
 	}
 	
+	
 	public void update(int vid,String vlastName)
 	{
 		vendorDaoImpl.update(vid,vlastName);
 	}
-	
-	
 }

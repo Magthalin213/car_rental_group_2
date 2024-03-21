@@ -1,6 +1,7 @@
 package com.model;
 
-public class Vendor {
+public class Vendor 
+{
 	private int id;
 	private int vehicleId;
 	private String firstName; 
@@ -13,7 +14,8 @@ public class Vendor {
 	public Vendor() {}
 	
 	public Vendor(int id, int vehicleId, String firstName, String lastName, String email, String phoneNumber,
-			String userName, String password) {
+			String userName, String password) 
+	{
 		super();
 		this.id = id;
 		this.vehicleId = vehicleId;
@@ -26,7 +28,8 @@ public class Vendor {
 	}
 	
 	public Vendor(int vehicleId, String firstName, String lastName, String email, String phoneNumber, String userName,
-			String password) {
+			String password) 
+	{
 		super();
 		this.vehicleId = vehicleId;
 		this.firstName = firstName;
@@ -94,7 +97,8 @@ public class Vendor {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString() 
+	{
 		return "Vendor [id=" + id + ", vehicleId=" + vehicleId + ", firstName=" + firstName + ", lastName=" + lastName + 
 				", email=" + email + ", phoneNumber=" + phoneNumber + ", userName=" + userName + ", password=" + password + "]";
 	}

@@ -2,7 +2,8 @@ package com.dto;
 
 import java.time.LocalDate;
 
-public class VendorDto {
+public class VendorDto 
+{
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -17,7 +18,8 @@ public class VendorDto {
 	public VendorDto() {}
 
 	public VendorDto(int id, String firstName, String lastName, String email, String phoneNumber, int vehicleId,
-			int customerId, LocalDate startDate, LocalDate endDate, String type) {
+			int customerId, LocalDate startDate, LocalDate endDate, String type) 
+	{
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -32,7 +34,8 @@ public class VendorDto {
 	}
 
 	public VendorDto(String firstName, String lastName, String email, String phoneNumber, int vehicleId, int customerId,
-			LocalDate startDate, LocalDate endDate, String type) {
+			LocalDate startDate, LocalDate endDate, String type) 
+	{
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -121,5 +124,4 @@ public class VendorDto {
 				+ ", phoneNumber=" + phoneNumber + ", vehicleId=" + vehicleId + ", customerId=" + customerId
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", type=" + type + "]";
 	}
-	
 }
