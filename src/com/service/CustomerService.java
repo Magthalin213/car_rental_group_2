@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.dao.CustomerDaoImpl;
 import com.dto.CustomerDto;
+import com.dto.CustomerVehicleDto;
 import com.model.Customer;
 import com.model.Lease;
 
@@ -37,5 +38,9 @@ public class CustomerService {
 	public void update(int cid,String clastName)
 	{
 		customerDaoImpl.update(cid,clastName);
+	}
+	public List<CustomerVehicleDto> fetchDet() throws SQLException{
+		List<CustomerVehicleDto>list1=customerDaoImpl.fetchDet();
+		return list1;
 	}
 }

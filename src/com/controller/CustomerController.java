@@ -2,12 +2,12 @@
 	package com.controller;
 
 	import java.sql.SQLException;
-	import java.util.List;
-	import java.util.Scanner;
+import java.util.List;
+import java.util.Scanner;
 
 import com.dto.CustomerDto;
+import com.dto.CustomerVehicleDto;
 import com.model.Customer;
-import com.model.Lease;
 import com.service.CustomerService;
 
 
@@ -25,6 +25,7 @@ import com.service.CustomerService;
 			System.out.println("ENTER 4 TO DELETE");
 			System.out.println("ENTER 5 TO  FETCH BY LEASE");
 			System.out.println("ENTER 6 TO UPDATE");
+			System.out.println("ENTER 7 TO FETCH ALL VEHICLES BY CUSTOMER");
 			System.out.println("ENTER 0 TO EXIT");
 			int input=sc.nextInt();
 			
@@ -128,6 +129,16 @@ import com.service.CustomerService;
 					sc.nextLine();
 					String clastName=sc.nextLine();
 					customerService.update(ciid, clastName);
+					break;
+				case 7:
+					System.out.println("FETCH ALL DETAILS");
+					List<CustomerVehicleDto>list1=customerService.fetchDet();
+					for(CustomerVehicleDto v:list1)
+					{
+						System.out.println("[customerId="+v.getCustomerId()+  ", firstName=" + v.getFirstName() + ", lastName=" + v.getLastName()+ 
+								 ", phoneNumber=" + v.getPhoneNumber() + ", vehicleId=" + v.getVehicleId ()+
+								", make=" + v.getMake() +",model="+v.getMake()+ "]");
+					}
 					break;
 				default:
 					System.out.println("INVALID INPUT");

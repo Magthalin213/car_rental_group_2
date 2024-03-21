@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.dto.CustomerDto;
+import com.dto.CustomerVehicleDto;
 import com.model.Customer;
 import com.model.Lease;
 import com.util.DBUtil;
@@ -178,6 +179,49 @@ import com.util.DBUtil;
 		}
 		db.dbClose();
 	}
+		public List<CustomerVehicleDto> fetchDet()  throws SQLException {
+			 conn=db.getDBConn();
+			 List<CustomerVehicleDto>list1=new ArrayList<>();
+			String sql="select *"
+					+ "from customer c join lease l "
+					+ "on c.id=l.customer_id join "
+					+ "vehicle v on v.id=l.vehicle_id";
+			try {
+			PreparedStatement pstmt=conn.prepareStatement(sql);
+			ResultSet rst=pstmt.executeQuery();
+			while(rst.next())
+			{
+				
+				int customerId=rst.getInt("customer_id");
+				String firstName=rst.getString("first_name");
+				String lastName=rst.getString("last_name");
+				String phoneNumber=rst.getString("phone_number");
+				int  vechicleId=rst.getInt("vehicle_id");
+				String make=rst.getString("make");
+				String model=rst.getString("model");
+				//save to obj
+				CustomerVehicleDto v=new CustomerVehicleDto();
+			    v.setCustomerId(customerId);
+			    v.setFirstName(firstName);
+			    v.setLastName(lastName);
+			    v.setPhoneNumber(phoneNumber);
+			    v.setVehicleId(vechicleId);   
+			    v.setMake(make);
+			    v.setModel(model);
+				
+				list1.add(v);
+			  
+			}
+			
+		}
+			catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+			db.dbClose();
+			return list1;
 	}
+	}
+	
 
 
