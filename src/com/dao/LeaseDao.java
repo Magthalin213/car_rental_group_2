@@ -11,5 +11,7 @@ public interface LeaseDao {
 
 	public Lease getLeaseById(int id) throws SQLException;
 
+	public List<Lease> getActiveLease() throws SQLException;
+
 
 }

@@ -16,6 +16,7 @@ public class LeaseController {
 			System.out.println("******** Lease OPS ********");
 			System.out.println("Press 1. To Display all Lease Details");
 			System.out.println("Press 2. To Recieve a Lease Detail using ID");
+			System.out.println("Press 3. To List the Active Lease");
 			System.out.println("Press 0 for exit");
 			System.out.println("****************************");
 			int input = sc.nextInt();
@@ -51,6 +52,15 @@ public class LeaseController {
 				} 
 				Lease lease1;
 				break;
+			case 3:
+				System.out.println("*********All Active Leases*********");
+				try {
+					List<Lease> list=ls.getActiveLease();
+					for( Lease l: list)
+						System.out.println(l);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			default :
 				break;
 			}

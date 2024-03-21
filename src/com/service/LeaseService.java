@@ -15,5 +15,9 @@ public class LeaseService {
 	public Lease getLeaseById(int id) throws SQLException {
 		return ld.getLeaseById(id);
 	}
+	public List<Lease> getActiveLease() throws SQLException {
+		return ld.getActiveLease();
+	}
+	
 
 }
