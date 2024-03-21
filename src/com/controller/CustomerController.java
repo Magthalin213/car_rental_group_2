@@ -5,6 +5,7 @@
 	import java.util.List;
 	import java.util.Scanner;
 
+import com.dto.CustomerDto;
 import com.model.Customer;
 import com.model.Lease;
 import com.service.CustomerService;
@@ -101,18 +102,20 @@ import com.service.CustomerService;
 
 				case 5:
 					System.out.println("SEARCH BY LEASE");
-					System.out.println("Enter the id");
-					int lid=sc.nextInt();
-					try
-					{
-						Lease l=customerService.getById(lid);
-						System.out.println(l);
+					System.out.println("Enter the customer id to display the lease:");
+					int cid=sc.nextInt();
+					try {
+						List<CustomerDto>l=customerService.getById(cid);
+						for(CustomerDto d:l)
+						{
+					System.out.println("CustomerDto [id=" + d.getId() + ", firstName=" 
+					+ d.getFirstName() + ", lastName=" + d.getLastName() + ", email=" + d.getEmail()
+						+ ", phoneNumber=" + d.getPhoneNumber() + ", vehicleId=" 
+						+ d.getVehicleId() + ", startDate=" +d.getStartDate()+ ", endDate="
+							+ d.getEndDate() + ", type=" +d.getType() + "]");
+						}
 					}
 					catch(SQLException e)
-					{
-						System.out.println(e.getMessage());
-					}
-					catch(NullPointerException e)
 					{
 						System.out.println(e.getMessage());
 					}
@@ -120,11 +123,11 @@ import com.service.CustomerService;
 				case 6:
 					System.out.println("UPDATE***********");
 					System.out.println("ENTER ID TO UPDATE");
-					int cid=sc.nextInt();
+					int ciid=sc.nextInt();
 					System.out.println("ENTER LAST NAME");
 					sc.nextLine();
 					String clastName=sc.nextLine();
-					customerService.update(cid, clastName);
+					customerService.update(ciid, clastName);
 					break;
 				default:
 					System.out.println("INVALID INPUT");

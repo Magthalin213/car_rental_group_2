@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.dto.CustomerDto;
 import com.model.Customer;
 import com.model.Lease;
 import com.util.DBUtil;
@@ -118,35 +119,46 @@ import com.util.DBUtil;
 			}
 			db.dbClose();
 		}
-		public Lease getById(int customerId) throws SQLException {
+		public List<CustomerDto> getById(int cuid) throws SQLException {
 			 conn=db.getDBConn();
-			String sql="select * "
+			 List<CustomerDto>l=new ArrayList<>();
+			String sql="select c.id,c.first_name,c.last_name,c.email,c.phone_number,"
+					+ "l.vehicle_id,l.start_date,l.end_date,l.type "
 					+ "from customer c join lease l on l.customer_id=c.id "
 					+ "where c.id=?";
 			PreparedStatement pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, customerId);
+			pstmt.setInt(1, cuid);
 			ResultSet rst=pstmt.executeQuery();
 			if(rst.next())
 			{
-				int lid=rst.getInt("customer_id");
+				
+				
+				String firstName=rst.getString("first_name");
+				String lastName=rst.getString("last_name");
+				String email=rst.getString("email");
+				String phoneNumber=rst.getString("phone_number");
 				int  vechicleId=rst.getInt("vehicle_id");
 				LocalDate startDate=rst.getDate("start_date").toLocalDate();
 				LocalDate endDate=rst.getDate("end_date").toLocalDate();
 				String type=rst.getString("type");
 				//save to obj
-				Lease l=new Lease();
-			    l.setCustomerId(lid);
-			    l.setVehicleId(vechicleId);
-			    l.setStartDate(startDate);
-			    l.setEndDate(endDate);
-				l.setType(type);
+				CustomerDto d=new CustomerDto();
+			    
+			    d.setFirstName(firstName);
+			    d.setLastName(lastName);
+			    d.setEmail(email);
+			    d.setPhoneNumber(phoneNumber);
+			    d.setVehicleId(vechicleId);   
+			    d.setStartDate(startDate);
+			    d.setEndDate(endDate);
+				d.setType(type);
 				
 				
-				return l;
+				l.add(d);
 			  
 			}
 			db.dbClose();
-			 throw new NullPointerException("Invalid Id given");
+			 return l;
 		
 		}
 		public void update(int cid,String clastName)

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.dao.CustomerDaoImpl;
+import com.dto.CustomerDto;
 import com.model.Customer;
 import com.model.Lease;
 
@@ -29,8 +30,9 @@ public class CustomerService {
 	{
 		customerDaoImpl.delete(id);
 	}
-	public Lease getById(int customerId) throws SQLException {
-		return customerDaoImpl.getById(customerId);
+	public List<CustomerDto> getById(int cuid) throws SQLException {
+		List<CustomerDto>l=customerDaoImpl.getById(cuid);
+		return l;
 	}
 	public void update(int cid,String clastName)
 	{
