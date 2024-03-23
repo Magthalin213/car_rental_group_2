@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.dto.CustomerDto;
 import com.dto.CustomerVehicleDto;
+import com.exception.CustomerNotAvailableException;
 import com.exception.InvalidNameException;
 import com.model.Customer;
 import com.model.Lease;
@@ -139,7 +140,7 @@ import com.util.DBUtil;
 			 throw new InvalidNameException("Invalid Name given");
 		
 		}
-		public void delete(int id)
+		public void delete(int id)throws SQLException
 		{
 			conn=db.getDBConn();
 			String sql="delete from customer where id=?";
@@ -196,34 +197,32 @@ import com.util.DBUtil;
 			 return l;
 		
 		}
-		public void update(int cid,String clastName)
+		public void update(int cid,String clastName)throws SQLException,CustomerNotAvailableException
 		{
 			conn=db.getDBConn();
 		String sql="update customer SET last_name=? where id=?";
-		try {
 			PreparedStatement pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1, clastName);
 			pstmt.setInt(2, cid);
-			pstmt.executeUpdate();
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
+			int a=pstmt.executeUpdate();
+		if(a==0)
+			throw new CustomerNotAvailableException("Customer not available");
 		db.dbClose();
 	}
-		public List<CustomerVehicleDto> fetchDet() {
+		public List<CustomerVehicleDto> fetchDet(int id1) {
 			 conn=db.getDBConn();
 			 List<CustomerVehicleDto>list1=new ArrayList<>();
 			String sql="select *"
 					+ "from customer c join lease l "
 					+ "on c.id=l.customer_id join "
-					+ "vehicle v on v.id=l.vehicle_id";
+					+ "vehicle v on v.id=l.vehicle_id where c.id=?";
 			try {
 			PreparedStatement pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1,id1);
 			ResultSet rst=pstmt.executeQuery();
-			while(rst.next())
+			
+			if(rst.next())
 			{
 				
 				int customerId=rst.getInt("customer_id");

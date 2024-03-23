@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.dto.CustomerDto;
 import com.dto.CustomerVehicleDto;
+import com.exception.CustomerNotAvailableException;
 import com.exception.InvalidNameException;
 import com.model.Customer;
 import com.service.CustomerService;
@@ -114,16 +115,25 @@ import com.service.CustomerService;
 					System.out.println("ENTER LAST NAME");
 					sc.nextLine();
 					String clastName=sc.nextLine();
+				try {
 					customerService.update(ciid, clastName);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CustomerNotAvailableException e) {
+					System.out.println(e.getMessage());
+				}
 					break;
 				case 7:
 					System.out.println("FETCH ALL DETAILS");
-					List<CustomerVehicleDto>list1=customerService.fetchDet();
+					System.out.println("Enter the id to fetch vehicle details");
+					int id=sc.nextInt();
+					List<CustomerVehicleDto>list1=customerService.fetchDet(id);
 					for(CustomerVehicleDto v:list1)
 					{
 						System.out.println("[customerId="+v.getCustomerId()+  ", firstName=" + v.getFirstName() + ", lastName=" + v.getLastName()+ 
 								 ", phoneNumber=" + v.getPhoneNumber() + ", vehicleId=" + v.getVehicleId ()+
-								", make=" + v.getMake() +",model="+v.getMake()+ "]");
+								", make=" + v.getMake() +",model="+v.getModel()+ "]");
 					}
 					break;
 				default:
