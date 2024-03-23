@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.dto.CustomerDto;
 import com.dto.CustomerVehicleDto;
+import com.exception.InvalidNameException;
 import com.model.Customer;
 import com.model.Lease;
 import com.util.DBUtil;
@@ -21,23 +22,56 @@ import com.util.DBUtil;
 	public class CustomerDaoImpl {
 		DBUtil db=new DBUtil();
 		Connection conn;
-		public void signUp(int id,String firstName,String lastName,String email,
-				String phoneNumber,String userName,String password)throws SQLException
-		{
-			conn=db.getDBConn();
-		String sql="insert into customer values(?,?,?,?,?,?,?)";
-		PreparedStatement pstmt=conn.prepareStatement(sql);
-		pstmt.setInt(1, id);
-		pstmt.setString(2,firstName);
-		pstmt.setString(3,lastName);
-		pstmt.setString(4,email);
-		pstmt.setString(5,phoneNumber);
-		pstmt.setString(6,userName);
-		pstmt.setString(7,password);
 		
-		pstmt.executeUpdate();
-		db.dbClose();
+
+		public List<CustomerVehicleDto> fetchRecord() {
+			
+			
+			conn=db.getDBConn();
+			 List<CustomerVehicleDto>lists=new ArrayList<>();
+			String sql="select *"
+					+ "from customer c ,lease l,vehicle v  "
+					+ "where c.id=l.customer_id and "
+					+ "v.id=l.vehicle_id and start_date between '2024-02-02' and '2024-03-10'";
+			try {
+			PreparedStatement pstmt=conn.prepareStatement(sql);
+			ResultSet rst=pstmt.executeQuery();
+			while(rst.next())
+			{
+				
+				int customerId=rst.getInt("customer_id");
+				String firstName=rst.getString("first_name");
+				String lastName=rst.getString("last_name");
+				String phoneNumber=rst.getString("phone_number");
+				int  vechicleId=rst.getInt("vehicle_id");
+				String make=rst.getString("make");
+				String model=rst.getString("model");
+				LocalDate startDate=rst.getDate("start_date").toLocalDate();
+				LocalDate endDate=rst.getDate("end_date").toLocalDate();
+				//save to obj
+				CustomerVehicleDto v=new CustomerVehicleDto();
+			    v.setCustomerId(customerId);
+			    v.setFirstName(firstName);
+			    v.setLastName(lastName);
+			    v.setPhoneNumber(phoneNumber);
+			    v.setVehicleId(vechicleId);   
+			    v.setMake(make);
+			    v.setModel(model);
+				v.setStartDate(startDate);
+				v.setEndDate(endDate);
+				lists.add(v);
+			  
+			}
+			
 		}
+			catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+			db.dbClose();
+			return lists;
+	}
+		
 		public List<Customer> fetchAll()
 		{
 			conn=db.getDBConn();
@@ -75,7 +109,7 @@ import com.util.DBUtil;
 			return list;
 		}
 		
-		public Customer getByName(String firstName) throws SQLException {
+		public Customer getByName(String firstName) throws SQLException,InvalidNameException {
 			 conn=db.getDBConn();
 			String sql="select * from customer where first_name=?";
 			PreparedStatement pstmt=conn.prepareStatement(sql);
@@ -102,7 +136,7 @@ import com.util.DBUtil;
 				return m;
 			}
 			db.dbClose();
-			 throw new NullPointerException("Invalid Name given");
+			 throw new InvalidNameException("Invalid Name given");
 		
 		}
 		public void delete(int id)
@@ -179,7 +213,7 @@ import com.util.DBUtil;
 		}
 		db.dbClose();
 	}
-		public List<CustomerVehicleDto> fetchDet()  throws SQLException {
+		public List<CustomerVehicleDto> fetchDet() {
 			 conn=db.getDBConn();
 			 List<CustomerVehicleDto>list1=new ArrayList<>();
 			String sql="select *"
@@ -221,6 +255,7 @@ import com.util.DBUtil;
 			db.dbClose();
 			return list1;
 	}
+
 	}
 	
 

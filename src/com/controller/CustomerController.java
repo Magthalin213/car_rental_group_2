@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.dto.CustomerDto;
 import com.dto.CustomerVehicleDto;
+import com.exception.InvalidNameException;
 import com.model.Customer;
 import com.service.CustomerService;
 
@@ -19,7 +20,7 @@ import com.service.CustomerService;
 			while(true)
 			{
 			System.out.println("********************OPS********************");
-			System.out.println("ENTER 1 TO SIGN UP");
+			System.out.println("ENTER 1 TO FETCH WITH DATE RANGE");
 			System.out.println("ENTER 2 TO FETCH");
 			System.out.println("ENTER 3 TO FETCH BY NAME");
 			System.out.println("ENTER 4 TO DELETE");
@@ -37,31 +38,16 @@ import com.service.CustomerService;
 			switch(input)
 			{
 			case 1:
-				System.out.println("SIGN UP!!!!");
-				System.out.println("ENTER DETAILS TO SIGN UP");
-				System.out.println("ENTER THE ID:");
-				int id=sc.nextInt();
-				System.out.println("ENTER FIRST NAME:");
-				sc.nextLine();
-				String firstName=sc.nextLine();
-				System.out.println("ENTER LAST NAME:");
-				
-				String lastName=sc.nextLine();
-				System.out.println("ENTER EMAIL:");
-				
-				String email=sc.nextLine();
-				System.out.println("ENTER PHONENUMBER:");
-				
-				String phoneNumber=sc.nextLine();
-				System.out.println("NOW TO LOGIN ENTER THE CREDENTIAL DETAILS!!!");
-				System.out.println("ENTER USERNAME:");
-				
-				String userName=sc.nextLine();
-				System.out.println("ENTER Password:");
-				
-				String password=sc.nextLine();
-				customerService.signUp(id,firstName,lastName,email,
-						phoneNumber,userName, password);
+				System.out.println("FETCH ALL DETAILS");
+				List<CustomerVehicleDto>lists=customerService.fetchRecord();
+				for(CustomerVehicleDto v:lists)
+				{
+					System.out.println("[customerId="+v.getCustomerId()+  ", firstName=" + v.getFirstName() + ", lastName=" + v.getLastName()+ 
+							 ", phoneNumber=" + v.getPhoneNumber() + ", vehicleId=" + v.getVehicleId ()+
+							", make=" + v.getMake() +",model="+v.getMake()+ ",startDate="+v.getStartDate()+",endDate"+v.getEndDate()+"]");
+				}
+				break;
+			
 			case 2:
 				System.out.println("FETCH ALL DETAILS");
 				List<Customer>list=customerService.fetchAll();
@@ -88,7 +74,7 @@ import com.service.CustomerService;
 				{
 					System.out.println(e.getMessage());
 				}
-				catch(NullPointerException e)
+				catch(InvalidNameException e)
 				{
 					System.out.println(e.getMessage());
 				}
