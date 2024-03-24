@@ -1,8 +1,10 @@
 package com.dao;
 
+import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
 
+import java.time.LocalDate;
+import java.util.List;
 import com.model.Lease;
 
 public interface LeaseDao {
@@ -13,5 +15,7 @@ public interface LeaseDao {
 
 	public List<Lease> getActiveLease() throws SQLException;
 
+	public void addLease(int vehicleId, int customerId, Date startDate, Date endDate,
+			String selectedOption) throws SQLException;
 
 }

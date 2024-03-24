@@ -61,16 +61,16 @@ public class Lease {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
+	public LocalDate setStartDate(LocalDate startDate) {
+		return startDate;
 	}
 
 	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
+	public LocalDate setEndDate(LocalDate endDate) {
+		return endDate;
 	}
 
 	public String getType() {

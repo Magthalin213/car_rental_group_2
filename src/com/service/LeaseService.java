@@ -2,7 +2,9 @@ package com.service;
 
 import com.model.Lease;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.dao.LeaseDao;
@@ -17,6 +19,10 @@ public class LeaseService {
 	}
 	public List<Lease> getActiveLease() throws SQLException {
 		return ld.getActiveLease();
+	}
+	public void addLease(int vehicleId, int customerId, Date startDate, Date endDate,
+			String selectedOption) throws SQLException {
+		ld.addLease(vehicleId,customerId,startDate,endDate,selectedOption);
 	}
 	
 

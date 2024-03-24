@@ -1,26 +1,25 @@
 package com.dao;
 
 import java.sql.Connection;
-
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+
 import com.model.Lease;
 import com.util.DBUtil;
 
 public class LeaseDaoImpl implements LeaseDao {
-
 	@Override
 	public List<Lease> returnCar() throws SQLException {
 		List<Lease> list = new ArrayList<>();
-		Connection conn = DBUtil.getDBConn();
+		Connection conn=DBUtil.getDBConn();
 		String sql = "select * from lease";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rst = pstmt.executeQuery();
-
 		while (rst.next()) {
 			int id = rst.getInt("id");
 			int vid = rst.getInt("vehicle_id");
@@ -37,8 +36,7 @@ public class LeaseDaoImpl implements LeaseDao {
 
 	@Override
 	public Lease getLeaseById(int id) throws SQLException {
-		Connection conn = DBUtil.getDBConn();
-
+		Connection conn=DBUtil.getDBConn();
 		String sql = "select * from lease where id=?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		// Attach the value of parameter ?
@@ -62,12 +60,12 @@ public class LeaseDaoImpl implements LeaseDao {
 	}
 
 	public List<Lease> getActiveLease() throws SQLException {
+		Connection conn=DBUtil.getDBConn();
 		List<Lease> list = new ArrayList<>();
-		Connection conn = DBUtil.getDBConn();
-		String sql = "SELECT l.* "
-				+ "FROM lease l "
-				+ "JOIN vehicle v ON l.vehicle_id = v.id "
-				+ "WHERE v.status = 'notAvailable'";
+		String sql ="SELECT * "
+				+ "FROM lease "
+				+ "WHERE start_date <= CURDATE() "
+				+ "AND end_date >= CURDATE()";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rst = pstmt.executeQuery();
 
@@ -84,5 +82,24 @@ public class LeaseDaoImpl implements LeaseDao {
 		DBUtil.dbClose();
 		return list;
 	}
-
+	
+	public void addLease(int vehicleId, int customerId, Date startDate, Date endDate,
+			String selectedOption) throws SQLException
+	{
+		Connection conn=DBUtil.getDBConn();
+		String sql = "INSERT INTO lease(vehicle_id, customer_id, start_date, end_date, type) VALUES(?,?,?,?,?)";
+		PreparedStatement pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, vehicleId);
+		pstmt.setInt(2, customerId);
+		pstmt.setDate(3, startDate);
+		pstmt.setDate(4, endDate);
+		pstmt.setString(5, selectedOption);
+		int changes=pstmt.executeUpdate();
+		if(changes==0)
+			System.out.println("Error....No updates have been done");
+		else
+			System.out.println("New Lease has been Updated succesfully...");
+		DBUtil.dbClose();
+		
+	}
 }
