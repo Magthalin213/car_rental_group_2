@@ -4,11 +4,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
+import com.exception.VehicleNotFoundException;
+import com.model.Customer;
 import com.model.Vehicle;
 import com.service.VehicleService;
 
 public class VehicleController {
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, VehicleNotFoundException {
 		VehicleService vehicleService = new VehicleService();
 		Scanner sc = new Scanner(System.in);
 		while (true) {
@@ -36,12 +38,13 @@ public class VehicleController {
 
 				break;
 			case 2:
-				System.out.println("***SINGLE VEHICLE DETAILS***");
 				System.out.println("Enter STATUS Required: ");
 				String str = sc.next();
 				
-				List<Vehicle> vehicle = vehicleService.getVehicleById(str);
-				System.out.println(vehicle);
+				List<Vehicle> list1 = vehicleService.getVehiclesByStatus(str);
+				for(Vehicle v : list1) {
+				System.out.println(v);
+				}
 				
 				break;
 			case 3:
@@ -71,7 +74,25 @@ public class VehicleController {
 				String np=sc.next();
 				VehicleService.insert(id,brandName,model,dr,status,pa,ec,np);
 				
-				
+			case 5:
+				System.out.println("SEARCH VEHICLE BY NUMBER PLATE ");
+				System.out.println("Enter the Number Plate ");
+				sc.nextLine();
+				String numberPlate=sc.nextLine();
+				try
+				{
+					Vehicle v=vehicleService.getByNumPlate(numberPlate);
+					System.out.println(v);
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+				catch(VehicleNotFoundException e)
+				{
+					System.out.println(e.getMessage());
+				}
+				break;
 				
 			default:
 				System.out.println("Invalid Input");
