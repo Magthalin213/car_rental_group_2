@@ -1,3 +1,4 @@
+
 package com.test;
 
 import java.sql.SQLException;
@@ -21,5 +22,10 @@ public class CustomerTest {
 		}
 
 	}
+=======
+	
+	
+}
+>>>>>>> 7d048c855a4c63a5c0996b861a4ce7cdf79aa993
 
 }

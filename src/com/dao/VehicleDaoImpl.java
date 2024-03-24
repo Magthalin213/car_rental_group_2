@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.exception.VehicleNotFoundException;
+import com.model.Customer;
 import com.model.Vehicle;
 import com.util.DBUtil;
 
@@ -39,7 +41,7 @@ public class VehicleDaoImpl {
 		return list;
 	}
 
-	public List<Vehicle> getVehicleById(String str) throws SQLException {
+	public List<Vehicle> getVehiclesByStatus(String str) throws SQLException {
 		List<Vehicle> list = new ArrayList<>();
 		Connection conn = DBUtil.getDBConn();
 		/* Step 1: Prepare the statement */
@@ -50,23 +52,22 @@ public class VehicleDaoImpl {
 		/* execute the statement */
 		ResultSet rst= pstmt.executeQuery();
 		/* iterate over the result set and read DB column*/
-		if(rst.next()) { //if id is present in the DB, I vl give venue obj else will throw NPE
-			int vid = rst.getInt("id");
+		while(rst.next()) {
+			int id = rst.getInt("id");
 			String brandName = rst.getString("make");
 			String model = rst.getString("model");
-			//Year year = rst.getYear("year");
 			int dailyRate = rst.getInt("daily_rate");
 			String status = rst.getString("status");
 			int passengerCapacity = rst.getInt("passenger_capacity");
-			int engineCapacity = rst.getInt("engine_Capacity");
+			int engineCapacity = rst.getInt("engine_capacity");
 			String numberPlate=rst.getString("number_plate");
-			//save it in an object
-			Vehicle vehicle = new Vehicle (vid, brandName,model, dailyRate, status, passengerCapacity, engineCapacity,numberPlate);
+			
+			Vehicle vehicle = new Vehicle (id,brandName,model,dailyRate,status,passengerCapacity,engineCapacity,numberPlate);
+			 
 			list.add(vehicle);
-			return list;
 		}
 		DBUtil.dbClose();
-		throw new NullPointerException("Invalid Status...");
+		return list;
 	}
 
 	public static void delete(int id1) {
@@ -104,8 +105,32 @@ public class VehicleDaoImpl {
 		
 		System.out.println("*****RECORD ADDED*****");
 		
+	}
+
+	public Vehicle getByNumPlate(String numberPlate1) throws SQLException, VehicleNotFoundException {
+		Connection conn = DBUtil.getDBConn();
+		String sql="select * from vehicle where number_plate=?";
+		PreparedStatement pstmt=conn.prepareStatement(sql);
+		pstmt.setString(1, numberPlate1);
+		ResultSet rst=pstmt.executeQuery();
+		if(rst.next())
+		{
+			int id = rst.getInt("id");
+			String brandName = rst.getString("make");
+			String model = rst.getString("model");
+			int dailyRate = rst.getInt("daily_rate");
+			String status = rst.getString("status");
+			int passengerCapacity = rst.getInt("passenger_capacity");
+			int engineCapacity = rst.getInt("engine_capacity");
+			String numberPlate=rst.getString("number_plate");
+			
+			Vehicle vehicle = new Vehicle (id,brandName,model,dailyRate,status,passengerCapacity,engineCapacity,numberPlate);
+			
+			return vehicle;
+		}
+		DBUtil.dbClose();
+		 throw new VehicleNotFoundException("Invalid Number Plate Given..");
 	
-		
 	}
 
 	
