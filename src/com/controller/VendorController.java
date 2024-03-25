@@ -33,8 +33,7 @@ public class VendorController {
 				break;
 			}
 			switch(input)
-			{
-				case 1:
+			{			case 1:
 					System.out.println("***Sign up***");
 					System.out.println("Enter detail to sign up: ");
 					System.out.println("Enter the ID: ");

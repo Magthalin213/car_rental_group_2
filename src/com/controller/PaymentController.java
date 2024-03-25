@@ -30,7 +30,7 @@ public class PaymentController {
             System.out.println("Enter your choice:");
 
             choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -50,11 +50,11 @@ public class PaymentController {
     public void recordPayment() {
         System.out.println("Enter Lease ID:");
         int leaseId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
 
         System.out.println("Enter Payment Amount:");
         double amount = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
 
         try {
             Lease lease = leaseService.getLeaseById(leaseId);
