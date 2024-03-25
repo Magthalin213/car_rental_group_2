@@ -15,8 +15,8 @@ import com.service.LeaseService;
 public class LeaseController {
 
 	public static void main(String[] args) throws InvalidChoiceException, SQLException {
-		Scanner sc=new Scanner(System.in);
-		LeaseService leaseService=new LeaseService();
+		Scanner sc = new Scanner(System.in);
+		LeaseService leaseService = new LeaseService();
 		while (true) {
 			System.out.println("******** Lease OPS ********");
 			System.out.println("Press 1. To Display all Lease Details");
@@ -32,18 +32,14 @@ public class LeaseController {
 				System.out.println("Exiting...Thank You!!!");
 				break;
 			}
-			switch(input)
-			{
+			switch (input) {
 			case 1:
 				System.out.println("*******All Lease Details*******");
-				try
-				{
-					List<Lease> lease=leaseService.returnCar();
-					for( Lease l: lease)
+				try {
+					List<Lease> lease = leaseService.returnCar();
+					for (Lease l : lease)
 						System.out.println(l);
-				}
-				catch (SQLException e)
-				{
+				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 				Lease lease;
@@ -57,58 +53,67 @@ public class LeaseController {
 					System.out.println(lease1);
 				} catch (NullPointerException | SQLException e) {
 					e.printStackTrace();
-				} 
+				}
 				Lease lease1;
 				break;
 			case 3:
 				System.out.println("**********Adding New Lease Details**********");
-				
+
 				System.out.println("Enter Vehicle ID: ");
-				int vehicleId=sc.nextInt();
-				
+				int vehicleId = sc.nextInt();
+
 				System.out.println("Enter Customer ID: ");
-				int customerId=sc.nextInt();
+				int customerId = sc.nextInt();
 
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				System.out.println("Enter the starting Date of Lease (YYYY-MM-DD): ");
 				sc.nextLine();
-				String start=sc.nextLine();
-				LocalDate sdate= LocalDate.parse(start, formatter);
-				Date startDate=java.sql.Date.valueOf(sdate);
-				
-				
+				String start = sc.nextLine();
+				LocalDate sdate = LocalDate.parse(start, formatter);
+				Date startDate = java.sql.Date.valueOf(sdate);
+
 				System.out.println("Enter the Ending Date of Lease (YYYY-MM-DD): ");
-				String end=sc.nextLine();
-				LocalDate edate= LocalDate.parse(end, formatter);
+				String end = sc.nextLine();
+				LocalDate edate = LocalDate.parse(end, formatter);
 				Date endDate = java.sql.Date.valueOf(edate);
-				
+
 				System.out.println("Choose the Type of Lease:\n1. Daily Lease\n2. Monthly Lease");
 				int choice = sc.nextInt();
-		        String selectedOption;
-				if(choice == 1)
-		        	selectedOption = "DailyLease";
+				String selectedOption;
+				if (choice == 1)
+					selectedOption = "DailyLease";
 				else if (choice == 2)
 					selectedOption = "MonthlyLease";
 				else
 					throw new InvalidChoiceException("Invalid choice has been made");
-		        leaseService.addLease(vehicleId,customerId,startDate,endDate,selectedOption);
-		      	break;
+				leaseService.addLease(vehicleId, customerId, startDate, endDate, selectedOption);
+				break;
 			case 4:
 				System.out.println("*********All Active Leases*********");
 				try {
-					List<Lease> list=leaseService.getActiveLease();
-					for( Lease l: list)
+					List<Lease> list = leaseService.getActiveLease();
+					for (Lease l : list)
 						System.out.println(l);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 				break;
 			case 5:
-				
+				System.out.println("***********Updating Vehicle Status***********");
+				System.out.println("Enter Vehicle Id: ");
+				int vehicleid = sc.nextInt();
+				leaseService.vehicleStatusUpdate(vehicleid);
 				break;
 			case 6:
+				System.out.println("*********Number of times vehicles has been booked by ID*********");
+				System.out.println("Enter Vehicle ID: ");
+				int vId = sc.nextInt();
+				
+				List<Lease> list = leaseService.getTotalVehicleBooking(vId);
+				for (Lease l : list)
+					System.out.println(l);
 				break;
-			default :
+			default:
 				break;
 			}
 
