@@ -36,7 +36,7 @@ public class LeaseServiceTest {
 			Assert.assertEquals("ID not found".toLowerCase(), e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void showActiveLeases()
 	{
