@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.dto.VendorDto;
+import com.dto.VendorVehicleLeaseDto;
 import com.model.Vendor;
 import com.service.VendorService;
 
@@ -17,7 +18,7 @@ public class VendorController {
 		while(true)
 		{
 			System.out.println("**********VENDOR OPS************");
-			System.out.println("PRESS 1 TO Sign up");
+			System.out.println("PRESS 1 TO Get Lease By Vendor");
 			System.out.println("PRESS 2 TO List all Vendor");
 			System.out.println("PRESS 3 TO Fetch by ID");
 			System.out.println("PRESS 4 TO Delete");
@@ -33,41 +34,37 @@ public class VendorController {
 				break;
 			}
 			switch(input)
-			{			case 1:
-					System.out.println("***Sign up***");
-					System.out.println("Enter detail to sign up: ");
-					System.out.println("Enter the ID: ");
-					int id=sc.nextInt();
-					
-					System.out.println("Enter the Vechile ID: ");
-					int vcid=sc.nextInt();
-					
-					System.out.println("Enter First Name: ");
-					sc.nextLine();
-					String firstName=sc.nextLine();
-					
-					System.out.println("Enter Last Name: ");
-					String lastName=sc.nextLine();
-					
-					System.out.println("Enter Email: ");
-					String email=sc.nextLine();
-					
-					System.out.println("Enter Phone Number: ");
-					String phoneNumber=sc.nextLine();
-					
-					System.out.println("***Enter the Login Credentials***");
-					System.out.println("Enter Username: ");
-					String userName=sc.nextLine();
+			{		
+			
+			case 1:
+				System.out.println("***Get Lease By Vendor***");
+				System.out.println("Enter the details ");
+				System.out.println("Enter the ID: ");
+				int id=sc.nextInt();
 				
-					System.out.println("Enter Password: ");
-					String password=sc.nextLine();
-					vendorService.signUp(id,vcid,firstName,lastName,email,phoneNumber,userName, password);
+				System.out.println("Vehicle status: \\n1. Available\\n2. Not Available");
+				int choice=sc.nextInt();
 				
-					
+				String status = null;
+				if(choice == 1)
+		        	status= "Available";
+				else if (choice == 2)
+					status = "notAvailable";
+				else
+					System.out.println("Invalid choice");
+				
+				List<VendorVehicleLeaseDto>list=vendorService.getLeaseByVendor(id,status);
+				for(VendorVehicleLeaseDto m:list)
+				{
+					System.out.println(m);
+				}
+				break;
+
+				
 				case 2:
 					System.out.println("***List All Vendors***");
-					List<Vendor>list=vendorService.listAll();
-					for(Vendor m:list)
+					List<Vendor>list1=vendorService.listAll();
+					for(Vendor m:list1)
 					{
 						System.out.println("[id=" + m.getId() + ", vehicleId=" + m.getVehicleId() + ", firstName=" + m.getFirstName() + ", lastName=" + m.getLastName()+ 
 								", email=" + m.getEmail()+ ", phoneNumber=" + m.getPhoneNumber() + ", userName=" + m.getUserName ()+

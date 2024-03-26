@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.dao.VendorDaoImpl;
 import com.dto.VendorDto;
+import com.dto.VendorVehicleLeaseDto;
 import com.model.Vendor;
 
 
@@ -12,13 +13,9 @@ public class VendorService {
 	
 	VendorDaoImpl vendorDaoImpl=new VendorDaoImpl();
 	
-	public void signUp(int id, int vcid, String firstName,String lastName,String email,
-			String phoneNumber,String userName,String password)throws SQLException
-	{
-		vendorDaoImpl.signUp(id, vcid, firstName,lastName,email,
-				phoneNumber,userName, password);
-	}
-	
+	public List<VendorVehicleLeaseDto> getLeaseByVendor(int id, String status) throws SQLException {
+		return vendorDaoImpl.getLeaseByVendor(id, status);
+	}	
 	
 	public List<Vendor> listAll(){
 		List<Vendor>list=vendorDaoImpl.listAll();

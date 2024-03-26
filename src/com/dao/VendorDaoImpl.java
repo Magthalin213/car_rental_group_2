@@ -9,34 +9,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dto.VendorDto;
+import com.dto.VendorVehicleLeaseDto;
 import com.model.Vendor;
 import com.util.DBUtil;
 
 public class VendorDaoImpl {
 
-	DBUtil db=new DBUtil();
-	Connection conn;
-	public void signUp(int id, int vcid, String firstName,String lastName,String email,
-			String phoneNumber,String userName,String password)throws SQLException
-	{
-		conn=DBUtil.getDBConn();
-		String sql="insert into vendor values(?,?,?,?,?,?,?,?)";
+	
+	public List<VendorVehicleLeaseDto> getLeaseByVendor(int id, String status) throws SQLException {
+		Connection conn = DBUtil.getDBConn();
+		List<VendorVehicleLeaseDto>l=new ArrayList<>();
+		
+		String sql="select l.id,l.vehicle_id, l.customer_id, l.start_date, l.end_date, l.type, v.id, ve.status "
+				+ "from vendor v join vehicle ve on v.vehicle_id= ve.id join lease l on ve.id= l.vehicle_id "
+				+ "where v.id=? " 
+				+ "AND ve.status=? "
+				+ "AND end_date>=CURDATE()";
 		PreparedStatement pstmt=conn.prepareStatement(sql);
 		pstmt.setInt(1, id);
-		pstmt.setInt(2, vcid);
-		pstmt.setString(3,firstName);
-		pstmt.setString(4,lastName);
-		pstmt.setString(5,email);
-		pstmt.setString(6,phoneNumber);
-		pstmt.setString(7,userName);
-		pstmt.setString(8,password);
-		pstmt.executeUpdate();
+		pstmt.setString(2, status);
+		ResultSet rst=pstmt.executeQuery();
+		if(rst.next())
+		{	
+			int lid=rst.getInt("id");
+			int vid=rst.getInt("id");
+			int cid=rst.getInt("id");
+			LocalDate startDate=rst.getDate("start_date").toLocalDate();
+			LocalDate endDate=rst.getDate("end_date").toLocalDate();
+			String type=rst.getString("type");
+			int vendorId=rst.getInt("id");
+			String vehicleStatus=rst.getString("status");
+			
+			VendorVehicleLeaseDto d=new VendorVehicleLeaseDto(lid,vid,cid,startDate, endDate, type, vendorId,vehicleStatus);
+		    
+			d.setId(lid);
+		    d.setVehicleId(vid);
+		    d.setCustomerId(cid);
+		    d.setStartDate(startDate);
+		    d.setEndDate(endDate);   
+		    d.setType(type);
+		    d.setVendorId(vendorId);
+			d.setStatus(vehicleStatus);
+			l.add(d);
+		}
 		DBUtil.dbClose();
+		return l;
 	}
-	
+
 	public List<Vendor> listAll()
 	{
-		conn=DBUtil.getDBConn();
+		Connection conn = DBUtil.getDBConn();
 		List<Vendor>list=new ArrayList<>();
 		String sql="select * from vendor";
 		
@@ -76,7 +98,7 @@ public class VendorDaoImpl {
 	
 	public Vendor getById(int id) throws SQLException 
 	{
-		 conn=DBUtil.getDBConn();
+		 Connection conn = DBUtil.getDBConn();
 		String sql="select * from vendor where id=?";
 		PreparedStatement pstmt=conn.prepareStatement(sql);
 		pstmt.setInt(1, id);
@@ -109,7 +131,7 @@ public class VendorDaoImpl {
 	
 	public void delete(int id)
 	{
-		conn=DBUtil.getDBConn();
+		Connection conn = DBUtil.getDBConn();
 		String sql="delete from vendor where id=?";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(sql);
@@ -125,7 +147,7 @@ public class VendorDaoImpl {
 	
 	public List<VendorDto> getByid(int vuid) throws SQLException 
 	{
-		 conn=DBUtil.getDBConn();
+		 Connection conn = DBUtil.getDBConn();
 		 List<VendorDto>l=new ArrayList<>();
 		 String sql="select v.id, v.first_name, v.last_name, v.email, v.phone_number,"
 				+ "l.vehicle_id,l.start_date,l.end_date,l.type "
@@ -163,7 +185,7 @@ public class VendorDaoImpl {
 	
 	public void update(int vid,String vfastName)
 	{
-		conn=DBUtil.getDBConn();
+		Connection conn = DBUtil.getDBConn();
 		String sql="update vendor SET first_name=? where id=?";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(sql);
