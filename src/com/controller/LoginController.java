@@ -15,7 +15,6 @@ public class LoginController {
     public LoginController(Connection connection) {
         this.connection = connection;
     }
-
     public boolean login() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Login");
@@ -29,7 +28,8 @@ public class LoginController {
             PreparedStatement customerStmt = connection.prepareStatement("SELECT * FROM customer WHERE user_name = ? AND password = ?");
             customerStmt.setString(1, username);
             customerStmt.setString(2, password);
-            if (customerStmt.executeQuery().next()) {
+            if (customerStmt.executeQuery().next()) 
+            {
              
                 System.out.println("Customer login successful. Welcome, " + username + "!");
                 customerMenu(); 
@@ -144,7 +144,7 @@ public class LoginController {
     public static void main(String[] args) {
         try {
             
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/car_rental", "root", "");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/car_rental", "root", "1607@bk");
 
             LoginController loginController = new LoginController(connection);
             Scanner scanner = new Scanner(System.in);

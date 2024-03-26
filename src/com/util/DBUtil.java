@@ -11,9 +11,9 @@ public class DBUtil {
 
 		public static Connection getDBConn() {
 			String usernameDb = "root";
-			String passwordDb = "";
+			String passwordDb = "1607@bk";
 			String urlDb = "jdbc:mysql://localhost:3306/car_rental";
-			String driverName = "com.mysql.jdbc.Driver";
+			String driverName = "com.mysql.cj.jdbc.Driver";
 
 			/* Step 2: Load The driver */
 			try {

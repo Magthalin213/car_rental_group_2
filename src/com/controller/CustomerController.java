@@ -32,8 +32,7 @@ import com.service.CustomerService;
 			int input=sc.nextInt();
 			
 			if(input==0)
-			{
-				System.out.println("EXITING.......THANK YOU!!!!");
+			{				System.out.println("EXITING.......THANK YOU!!!!");
 				break;
 			}
 			switch(input)
@@ -91,9 +90,9 @@ import com.service.CustomerService;
 				case 5:
 					System.out.println("SEARCH BY LEASE");
 					System.out.println("Enter the customer id to display the lease:");
-					int cid=sc.nextInt();
+					int cuid=sc.nextInt();
 					try {
-						List<CustomerDto>l=customerService.getById(cid);
+						List<CustomerDto>l=customerService.getById(cuid);
 						for(CustomerDto d:l)
 						{
 					System.out.println("CustomerDto [id=" + d.getId() + ", firstName=" 
