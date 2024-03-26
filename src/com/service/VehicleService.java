@@ -22,7 +22,7 @@ private VehicleDaoImpl vehicleDaoImpl = new VehicleDaoImpl();
 		 
 		return vehicleDaoImpl.getVehicles();
 	}
-	public static void insert(int id, String brandName, String model, int dr, String status, int pa, int ec,String np) throws SQLException {
+	public static  void insert(int id, String brandName, String model, int dr, String status, int pa, int ec,String np) throws SQLException {
 		VehicleDaoImpl.insert(id,brandName,model,dr,status,pa,ec,np);
 		
 	}
